@@ -1,5 +1,6 @@
 package fr.eni.demo.bll;
 
+import fr.eni.demo.bo.Adresse;
 import fr.eni.demo.bo.Employe;
 
 import java.util.List;
@@ -10,6 +11,8 @@ public interface EmployeService {
 
     Employe lire(Integer id);
 
-    List<Employe> lireToutLesEmployes();
+    List<Employe> lireTousLesEmployes();
+
+    void ajouter(Employe e, Adresse adresse);
 
 }

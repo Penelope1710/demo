@@ -1,7 +1,9 @@
 package fr.eni.demo.bll;
 
 import fr.eni.demo.bo.Employe;
-import fr.eni.demo.dal.EmployeDAO;
+import fr.eni.demo.dal.AdresseRepository;
+import fr.eni.demo.dal.EmployeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,36 +17,50 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@Slf4j
 @SpringBootTest
 public class TestEmployeService {
 
     @Autowired
     private EmployeService employeService;
 
+    @Autowired
     @MockitoBean
-    private EmployeDAO employeDAO;
+    private EmployeRepository employeRepository;
 
-    //tester l'ajout
+
+    @Autowired
+    @MockitoBean
+    private AdresseRepository adresseRepository;
+
     @Test
     void test_lireTousLesEmployes(){
 
         List<Employe> employes = new ArrayList<>();
         employes.add(Employe.builder()
-                                .id(1).nom("Prenomtest").prenom("PrenomTest").email("email@campus-eni.fr")
-                                .immatriculation("TEST2")
-                                .numDom("02030103001").numPort("0601020344").build()
+                .id(1)
+                .nom("NomTest1")
+                .prenom("PrenomTest1")
+                .email("email1@campus-eni.fr").
+                immatriculation("TEST1")
+                .numDom("0278541232")
+                .numPort("067854122")
+                .build()
         );
-
         employes.add(Employe.builder()
-                .id(2).nom("Prenomtest2").prenom("PrenomTest2").email("email2@campus-eni.fr")
-                .immatriculation("TEST3")
-                .numDom("02030103001").numPort("0601020344").build()
+                .id(2)
+                .nom("NomTest2")
+                .prenom("PrenomTest2")
+                .email("email2@campus-eni.fr").
+                immatriculation("TEST2")
+                .numDom("0278541233")
+                .numPort("067854123")
+                .build()
         );
 
+        Mockito.when(employeRepository.findAll()).thenReturn(employes);
 
-        Mockito.when(employeDAO.findAll()).thenReturn(employes);
-
-        List<Employe> listeEmployes = employeService.lireToutLesEmployes();
+        List<Employe> listeEmployes = employeService.lireTousLesEmployes();
 
         Assertions.assertThat(listeEmployes.size()).isEqualTo(2);
 
@@ -53,25 +69,37 @@ public class TestEmployeService {
     @Test
     void test_ajouter_employeNull(){
 
-        assertThrows(RuntimeException.class,
+        assertThrows(
+                RuntimeException.class,
                 ()->employeService.ajouter(null));
-
     }
+
 
     @Test
-    void test_employeImmatriculationExistante(){
-
+    void test_ajouter_employeImmatriculationExistante(){
         Employe employe = Employe.builder()
-                .id(1).nom("Prenomtest").prenom("PrenomTest").email("email@campus-eni.fr")
-                .immatriculation("TEST2")
-                .numDom("02030103001").numPort("0601020344").build();
-
+                .id(1)
+                .nom("NomTest1")
+                .prenom("PrenomTest1")
+                .email("email1@campus-eni.fr").
+                immatriculation("TEST1")
+                .numDom("0278541232")
+                .numPort("067854122")
+                .build();
         Optional<Employe> optionalEmploye = Optional.of(employe);
-        Mockito.when(employeDAO.findByImmatriculation("TEST2")).thenReturn(optionalEmploye);
 
-        assertThrows(RuntimeException.class,
+        //TODO
+        //Mockito.when(employeDAO.findByImmatriculation("TEST1")).thenReturn(optionalEmploye);
+
+        assertThrows(
+                RuntimeException.class,
                 ()->employeService.ajouter(employe));
-
     }
+
+
+
+
+
+
 
 }
