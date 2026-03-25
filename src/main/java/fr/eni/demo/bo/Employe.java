@@ -43,6 +43,9 @@ public class Employe {
     @JoinColumn(name = "ADDRESS_ID")
     private Adresse adresse;
 
-
+    //pas de cascade
+    @ManyToOne
+    @JoinColumn(name = "CIVILITY_ID")
+    private Civilite civilite;
 
 }

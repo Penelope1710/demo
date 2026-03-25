@@ -26,4 +26,10 @@ public class EtudiantEni {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "DATA_ID")
     private DonneesPerso donneesPerso;
+
+    //pas de cascade (si je supprime un étudiant je ne veux pas supprimer sa promo)
+    // mais je veux remonter sa promoton avec son nom
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "CLASS_ID")
+    private Promo promo;
 }
