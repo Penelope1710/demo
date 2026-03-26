@@ -88,8 +88,8 @@ public class TestEmployeService {
                 .build();
         Optional<Employe> optionalEmploye = Optional.of(employe);
 
-        //TODO
-        //Mockito.when(employeDAO.findByImmatriculation("TEST1")).thenReturn(optionalEmploye);
+
+        Mockito.when(employeRepository.findByImmatriculation("TEST1")).thenReturn(optionalEmploye);
 
         assertThrows(
                 RuntimeException.class,

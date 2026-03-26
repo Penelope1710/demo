@@ -36,11 +36,11 @@ public class EmployeServiceImpl implements EmployeService {
         if(e.getImmatriculation() == null || e.getImmatriculation().isBlank()){
             throw new RuntimeException("L'immatriculation doit être renseignée");
         }
-        //TODO
-        //Optional<Employe> optionalEmploye = employeDAO.findByImmatriculation(e.getImmatriculation());
-        //if(optionalEmploye.isPresent()){
-        //    throw new RuntimeException("L'immatriculation existe déjà");
-        // }
+
+        Optional<Employe> employe = employeRepository.findByImmatriculation(e.getImmatriculation());
+        if(employe.isPresent()){
+            throw new RuntimeException("L'immatriculation existe déjà");
+         }
 
         employeRepository.save(e);
     }
