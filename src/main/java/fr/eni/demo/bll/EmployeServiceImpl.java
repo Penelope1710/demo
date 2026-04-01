@@ -42,7 +42,11 @@ public class EmployeServiceImpl implements EmployeService {
             throw new RuntimeException("L'immatriculation existe déjà");
          }
 
-        employeRepository.save(e);
+        try {
+            employeRepository.save(e);
+        } catch (RuntimeException ex) {
+            throw new RuntimeException("création de l'employe impossible : " + ex);
+        }
     }
 
     @Override
@@ -50,9 +54,8 @@ public class EmployeServiceImpl implements EmployeService {
         Optional<Employe> optionalEmploye = employeRepository.findById(id);
         if(optionalEmploye.isPresent()){
             return optionalEmploye.get();
-        }else{
-            return null;
         }
+        throw new RuntimeException("L'employe n'existe pas.");
     }
 
     @Override
