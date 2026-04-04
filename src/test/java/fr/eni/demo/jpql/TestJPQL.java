@@ -1,27 +1,24 @@
 package fr.eni.demo.jpql;
 
+
 import fr.eni.demo.bo.Employe;
 import fr.eni.demo.dal.EmployeRepository;
-import jakarta.persistence.EntityManager;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 
 import java.util.Optional;
 
-@DataJpaTest
+
 @Slf4j
+@DataJpaTest
 public class TestJPQL {
 
     @Autowired
     private EmployeRepository employeRepository;
-
-    @Autowired
-    private EntityManager entityManager;
 
     @BeforeEach
     void insert_employe(){
@@ -41,13 +38,15 @@ public class TestJPQL {
         Assertions.assertThat(employeDB.getId()).isGreaterThan(0);
     }
 
+
     @Test
-    void test_findByEmailJPQL() {
+    void test_findByEmailJPQL(){
 
         Optional<Employe> optionalEmploye = employeRepository.findByEmailJPQL("email1@campus-eni.fr");
 
-        log.info(optionalEmploye.toString());
+        log.info(optionalEmploye.get().toString());
 
-        Assertions.assertThat(optionalEmploye).isNotNull();
+        Assertions.assertThat(optionalEmploye).isPresent();
     }
+
 }

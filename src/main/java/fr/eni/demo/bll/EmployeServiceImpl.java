@@ -45,7 +45,7 @@ public class EmployeServiceImpl implements EmployeService {
         try {
             employeRepository.save(e);
         } catch (RuntimeException ex) {
-            throw new RuntimeException("création de l'employe impossible : " + ex);
+            throw new RuntimeException("création de l'employe impossible : " + e);
         }
     }
 
